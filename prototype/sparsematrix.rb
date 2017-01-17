@@ -1,4 +1,4 @@
-
+m
 class SparseMatrix
 
     def +(other)
