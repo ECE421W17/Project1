@@ -25,6 +25,12 @@ class SparseMatrix
         end
     end
 
+    def get(*indices)
+    end
+
+    def set(new_value, *indices)
+    end
+
     def transpose()
     end
 
