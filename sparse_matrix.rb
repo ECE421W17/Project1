@@ -1,5 +1,9 @@
 module SparseMatrix
-
+    
+    def initialize(row, col)
+        raise NotImplementedError
+    end
+    
     def get(*indices)
         raise NotImplementedError
     end
