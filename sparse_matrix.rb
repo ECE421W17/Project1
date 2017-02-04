@@ -1,65 +1,95 @@
 module SparseMatrix
 
-    def hashRepresentation()
-        return @internal_rep
-    end
-
-    def +(other)
-        if other.is_a(SparseMatrix)
-            _addToMatrix(other)
-        elsif other.is_a(Numeric)
-            _addToScalar(other)
-        end
-    end
-
-    def -(other)
-        if other.is_a(SparseMatrix)
-            _subtractMatrix(other)
-        elsif other.is_a(Numeric)
-            _addToScalar(-other)
-        end
-    end
-
-    def *(other)
-        if other.is_a(SparseMatrix)
-            _multiplyByMatrix(other)
-        elsif other.is_a(Numeric)
-            _multiplyByScalar(other)
-        end
-    end
-
     def get(*indices)
-        @internal_rep[indices]
+        raise NotImplementedError
     end
 
     def set(new_value, *indices)
-        @internal_rep[indices] = new_value
+        raise NotImplementedError
+    end
+
+    def +(other)
+        raise NotImplementedError
+    end
+
+    def -(other)
+        raise NotImplementedError
+    end
+
+    def /(other)
+        raise NotImplementedError
+    end
+
+    def *(other)
+        raise NotImplementedError
     end
 
     def transpose()
+        raise NotImplementedError
     end
 
     def inverse()
+        raise NotImplementedError
     end
 
     def rank()
+        raise NotImplementedError
     end
 
     def determinant()
+        raise NotImplementedError
     end
 
+    def sparsity()
+        raise NotImplementedError
+    end
+
+    def isTridiagonal?()
+        raise NotImplementedError
+    end
+
+    def isDiagonal?()
+        raise NotImplementedError
+    end
+
+    def to_s()
+        raise NotImplementedError
+    end
+
+    def iterate()
+        raise NotImplementedError
+    end
+
+    def toDoK()
+        raise NotImplementedError
+    end
+
+    def fromOtherMatrixType(other)
+        raise NotImplementedError
+    end
+
+    def getType()
+        raise NotImplementedError
+    end
+    
     def _addToScalar(other)
+        raise NotImplementedError
     end
 
     def _addToMatrix(other)
+        raise NotImplementedError
     end
 
     def _multiplyByMatrix(other)
+        raise NotImplementedError
     end
 
     def _multiplyByScalar(other)
+        raise NotImplementedError
     end
 
     def _subtractMatrix(other)
+        raise NotImplementedError
     end
+
 end
