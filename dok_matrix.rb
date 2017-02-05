@@ -141,156 +141,197 @@ class DoKMatrix
 
     def inverse()
         # pre-conditions
+        det = self.determinant()
+        assert(det != 0, "Determinant should be zero to invert, but it is #{det}")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def rank()
         # pre-conditions
+        # None
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def determinant()
         # pre-conditions
+        # None
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def sparsity()
         # pre-conditions
+        # None
 
         # implementation
+        ret = 0
 
         # post-conditions
+        assert(ret >= 0 && ret <= 1, "Return value #{ret} is not a number between 0 and 1 inclusive")
 
         self.assert_class_invariants()
     end
 
     def isTridiagonal?()
         # pre-conditions
+        # None
 
         # implementation
+        ret = false
 
         # post-conditions
+        assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
 
         self.assert_class_invariants()
     end
 
     def isDiagonal?()
         # pre-conditions
+        # None
 
         # implementation
 
         # post-conditions
+        assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
 
         self.assert_class_invariants()
     end
 
     def to_s()
         # pre-conditions
+        # None
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def iterate()
         # pre-conditions
+        # None
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def toDoK()
         # pre-conditions
+        # None
 
         # implementation
+        ret = Hash.new
 
         # post-conditions
+        assert(ret.is_a?(Hash), "Return value is not a hash. It's a #{ret.class}")
 
         self.assert_class_invariants()
     end
 
     def fromOtherMatrixType(other)
         # pre-conditions
+        assert(other != nil, "Other is nil")
 
         # implementation
+        ret = 0
 
         # post-conditions
+        assert(ret != nil, "Return value is nil")
 
         self.assert_class_invariants()
     end
 
     def getType()
         # pre-conditions
+        # None
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
     
     def _addToScalar(other)
         # pre-conditions
+        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def _addToMatrix(other)
         # pre-conditions
+        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
+        assert(other.rowSize == @rowSize, "Other has a different row size")
+        assert(other.colSize == @colSize, "Other has a different column size")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def _multiplyByMatrix(other)
         # pre-conditions
+        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
+        assert(other.rowSize == @colSize, "Matrix's row size does not match other matrix's column size")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def _multiplyByScalar(other)
         # pre-conditions
+        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def _subtractMatrix(other)
         # pre-conditions
+        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
+        assert(other.rowSize == @rowSize, "Other has a different row size")
+        assert(other.colSize == @colSize, "Other has a different column size")
 
         # implementation
 
