@@ -42,11 +42,18 @@ class DoKMatrix
     
     def get(*indices)
         # pre-conditions
+        assert(indices[0].is_a?(Integer), "First index is not an integer")
+        assert(indices[0] >= 0, "First index is not greater or equal to zero")
+        assert(indices[0] < @rowSize, "First index is not less than first dimension")
+        assert(indices[1].is_a?(Integer), "Second index is not an integer")
+        assert(indices[1] >= 0, "Second index is not greater or equal to zero")
+        assert(indices[1] < @colSize, "Second index is not less than second dimension")
 
         # implementation
         ret = 0
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
 
@@ -55,10 +62,20 @@ class DoKMatrix
 
     def set(new_value, *indices)
         # pre-conditions
+        assert(indices[0].is_a?(Integer), "First index is not an integer")
+        assert(indices[0] >= 0, "First index is not greater or equal to zero")
+        assert(indices[0] < @rowSize, "First index is not less than first dimension")
+        assert(indices[1].is_a?(Integer), "Second index is not an integer")
+        assert(indices[1] >= 0, "Second index is not greater or equal to zero")
+        assert(indices[1] < @colSize, "Second index is not less than second dimension")
+        assert(new_value.is_a?(Numeric), "New value is not numeric")
 
         # implementation
 
         # post-conditions
+        i, j = indices[0..1]
+        el = self.get(i, j)
+        assert(el == new_value, "Element at (#{i}, #{j}) is #{el} instead of new value #{new_value}")
 
         self.assert_class_invariants()
     end
