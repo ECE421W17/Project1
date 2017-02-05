@@ -82,44 +82,53 @@ class DoKMatrix
 
     def +(other)
         # pre-conditions
+        assert(other != nil, "Other is nil")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def -(other)
         # pre-conditions
+        assert(other != nil, "Other is nil")
 
         # implementation
 
         # post-conditions
-
-        self.assert_class_invariants()
-    end
-
-    def /(other)
-        # pre-conditions
-
-        # implementation
-
-        # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
     def *(other)
         # pre-conditions
+        assert(other != nil, "Other is nil")
 
         # implementation
 
         # post-conditions
+        # None
 
         self.assert_class_invariants()
     end
 
+
+    def /(other)
+        # pre-conditions
+        assert(other != nil, "Other is nil")
+
+        # implementation
+
+        # post-conditions
+        # None
+
+        self.assert_class_invariants()
+    end
+    
     def transpose()
         # pre-conditions
 
