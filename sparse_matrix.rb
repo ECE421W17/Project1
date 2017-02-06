@@ -1,15 +1,15 @@
 module SparseMatrix
 
     def assert_class_invariants
-        assert(@rowSize.is_a?(Integer), "Row size is not an integer")
-        assert(@colSize.is_a?(Integer), "Column size is not an integer")        
+        assert(@rowSize.respond_to?(:to_i), "Row size is not an integer")
+        assert(@colSize.respond_to?(:to_i), "Column size is not an integer")        
         assert(@rowSize > 0, "Row size is not greater than zero")
         assert(@colSize > 0, "Column size is not greater than zero")
     end
     
     def pre_initialize(row, col)
-        assert(row.is_a?(Integer), "row parameter is not an integer")
-        assert(col.is_a?(Integer), "col parameter is not an integer")
+        assert(row.respond_to?(:to_i), "row parameter is not an integer")
+        assert(col.respond_to?(:to_i), "col parameter is not an integer")
         assert(row > 0, "row parameter is not greater than zero")
         assert(col > 0, "col parameter is not greater than zero")
     end
@@ -30,10 +30,10 @@ module SparseMatrix
     end
     
     def pre_get(*indices)
-        assert(indices[0].is_a?(Integer), "First index is not an integer")
+        assert(indices[0].respond_to?(:to_i), "First index is not an integer")
         assert(indices[0] >= 0, "First index is not greater or equal to zero")
         assert(indices[0] < @rowSize, "First index is not less than first dimension")
-        assert(indices[1].is_a?(Integer), "Second index is not an integer")
+        assert(indices[1].respond_to?(:to_i), "Second index is not an integer")
         assert(indices[1] >= 0, "Second index is not greater or equal to zero")
         assert(indices[1] < @colSize, "Second index is not less than second dimension")
     end
@@ -46,13 +46,13 @@ module SparseMatrix
     end
     
     def pre_set(new_value, *indices)
-        assert(indices[0].is_a?(Integer), "First index is not an integer")
+        assert(indices[0].respond_to?(:to_i), "First index is not an integer")
         assert(indices[0] >= 0, "First index is not greater or equal to zero")
         assert(indices[0] < @rowSize, "First index is not less than first dimension")
-        assert(indices[1].is_a?(Integer), "Second index is not an integer")
+        assert(indices[1].respond_to?(:to_i), "Second index is not an integer")
         assert(indices[1] >= 0, "Second index is not greater or equal to zero")
         assert(indices[1] < @colSize, "Second index is not less than second dimension")
-        assert(new_value.is_a?(Numeric), "New value is not numeric")
+        assert(new_value.respond_to?(:to_i), "New value is not numeric")
     end
 
     def set(new_value, *indices)
@@ -170,7 +170,7 @@ module SparseMatrix
     end
 
     def post_isTridiagonal(ret)
-        assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
+        assert(ret || true, "Return value cannot be used in a boolean expression : #{ret}")
     end
 
     def pre_isDiagonal()
@@ -181,7 +181,7 @@ module SparseMatrix
     end
 
     def post_isDiagonal(ret)
-        assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
+        assert(ret || true, "Return value cannot be used in a boolean expression : #{ret}")
     end
 
     def pre_to_s()
@@ -238,7 +238,7 @@ module SparseMatrix
     end
     
     def _pre_addToScalar(other)
-        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
+        assert(other.respond_to?(:to_f), "Other is not a scalar : #{other}")
     end
 
     def _addToScalar(other)
@@ -274,7 +274,7 @@ module SparseMatrix
     end
 
     def _pre_multiplyByScalar(other)
-        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
+        assert(other.respond_to?(:to_f), "Other is not a scalar : #{other}")
     end
 
     def _multiplyByScalar(other)
