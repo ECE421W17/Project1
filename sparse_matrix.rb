@@ -1,4 +1,11 @@
 module SparseMatrix
+
+    def assert_class_invariants
+        assert(@rowSize.is_a?(Integer), "Row size is not an integer")
+        assert(@colSize.is_a?(Integer), "Column size is not an integer")        
+        assert(@rowSize > 0, "Row size is not greater than zero")
+        assert(@colSize > 0, "Column size is not greater than zero")
+    end
     
     def pre_initialize(row, col)
         assert(row.is_a?(Integer), "row parameter is not an integer")

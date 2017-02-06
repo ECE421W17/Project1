@@ -7,13 +7,6 @@ require_relative 'sparse_matrix'
 class DoKMatrix
     include SparseMatrix
 
-    def assert_class_invariants
-        assert(@rowSize.is_a?(Integer), "Row size is not an integer")
-        assert(@colSize.is_a?(Integer), "Column size is not an integer")        
-        assert(@rowSize > 0, "Row size is not greater than zero")
-        assert(@colSize > 0, "Column size is not greater than zero")
-    end
-
     def initialize(row, col)
         # pre conditions
         self.pre_initialize(row, col)   
