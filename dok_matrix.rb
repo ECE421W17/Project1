@@ -162,16 +162,6 @@ class DoKMatrix
         self.assert_class_invariants()
     end
 
-    def toDoK()
-        self.pre_toDoK()
-
-        # implementation
-        ret = Hash.new
-
-        self.post_toDoK(ret)
-        self.assert_class_invariants()
-    end
-
     def fromOtherMatrixType(other)
         self.pre_fromOtherMatrixType(other)
 

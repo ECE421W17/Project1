@@ -204,17 +204,6 @@ module SparseMatrix
     def post_iterate()
     end
 
-    def pre_toDoK()
-    end
-
-    def toDoK()
-        raise NotImplementedError
-    end
-
-    def post_toDoK()
-        assert(ret.is_a?(Hash), "Return value is not a hash. It's a #{ret.class}")
-    end
-
     def pre_fromOtherMatrixType(other)
         assert(other != nil, "Other is nil")
     end
