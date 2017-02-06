@@ -127,7 +127,7 @@ class DoKMatrix
         # implementation
         ret = 0
 
-        self.post_sparsity()
+        self.post_sparsity(ret)
         self.assert_class_invariants()
     end
 
@@ -137,7 +137,7 @@ class DoKMatrix
         # implementation
         ret = false
 
-        self.post_isTridiagonal()
+        self.post_isTridiagonal(ret)
         self.assert_class_invariants()
     end
 
@@ -145,134 +145,101 @@ class DoKMatrix
         self.pre_isDiagonal()
 
         # implementation
+        ret = false
 
-        self.post_isDiagonal()
+        self.post_isDiagonal(ret)
         self.assert_class_invariants()
     end
 
     def to_s()
-        # pre-conditions
-        # None
+        self.pre_to_s()
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_to_s()
         self.assert_class_invariants()
     end
 
     def iterate()
-        # pre-conditions
-        # None
+        self.pre_iterate()
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_iterate()
         self.assert_class_invariants()
     end
 
     def toDoK()
-        # pre-conditions
-        # None
+        self.pre_toDoK()
 
         # implementation
         ret = Hash.new
 
-        # post-conditions
-        assert(ret.is_a?(Hash), "Return value is not a hash. It's a #{ret.class}")
-
+        self.post_toDoK(ret)
         self.assert_class_invariants()
     end
 
     def fromOtherMatrixType(other)
-        # pre-conditions
-        assert(other != nil, "Other is nil")
+        self.pre_fromOtherMatrixType(other)
 
         # implementation
         ret = 0
 
-        # post-conditions
-        assert(ret != nil, "Return value is nil")
-
+        self.post_fromOtherMatrixType(ret)
         self.assert_class_invariants()
     end
 
     def getType()
-        # pre-conditions
-        # None
+        self.pre_getType()
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_getType()
         self.assert_class_invariants()
     end
     
     def _addToScalar(other)
-        # pre-conditions
-        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
+        self._pre_addToScalar(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self._post_addToScalar(other)
         self.assert_class_invariants()
     end
 
     def _addToMatrix(other)
-        # pre-conditions
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @rowSize, "Other has a different row size")
-        assert(other.colSize == @colSize, "Other has a different column size")
+        self._pre_addToMatrix(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self._post_addToMatrix(other)
         self.assert_class_invariants()
     end
 
     def _multiplyByMatrix(other)
-        # pre-conditions
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @colSize, "Matrix's row size does not match other matrix's column size")
+        self._pre_multiplyByMatrix(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self._post_multiplyByMatrix(other)
         self.assert_class_invariants()
     end
 
     def _multiplyByScalar(other)
-        # pre-conditions
-        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
+        self._pre_multiplyByScalar(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self._post_multiplyByScalar(other)
         self.assert_class_invariants()
     end
 
     def _subtractMatrix(other)
-        # pre-conditions
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @rowSize, "Other has a different row size")
-        assert(other.colSize == @colSize, "Other has a different column size")
+        self._pre_subtractMatrix(other)
 
         # implementation
 
-        # post-conditions
-
+        self._post_subtractMatrix(other)
         self.assert_class_invariants()
     end
 end

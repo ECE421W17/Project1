@@ -151,7 +151,7 @@ module SparseMatrix
         raise NotImplementedError
     end
 
-    def post_sparsity()
+    def post_sparsity(ret)
         assert(ret >= 0 && ret <= 1, "Return value #{ret} is not a number between 0 and 1 inclusive")
     end
 
@@ -162,7 +162,7 @@ module SparseMatrix
         raise NotImplementedError
     end
 
-    def post_isTridiagonal()
+    def post_isTridiagonal(ret)
         assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
     end
 
@@ -173,7 +173,7 @@ module SparseMatrix
         raise NotImplementedError
     end
 
-    def post_isDiagonal()
+    def post_isDiagonal(ret)
         assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
     end
 
@@ -205,16 +205,19 @@ module SparseMatrix
     end
 
     def post_toDoK()
+        assert(ret.is_a?(Hash), "Return value is not a hash. It's a #{ret.class}")
     end
 
     def pre_fromOtherMatrixType(other)
+        assert(other != nil, "Other is nil")
     end
 
     def fromOtherMatrixType(other)
         raise NotImplementedError
     end
 
-    def post_fromOtherMatrixType()
+    def post_fromOtherMatrixType(ret)
+        assert(ret != nil, "Return value is nil")
     end
 
     def pre_getType()
@@ -228,6 +231,7 @@ module SparseMatrix
     end
     
     def _pre_addToScalar(other)
+        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
     end
 
     def _addToScalar(other)
@@ -237,7 +241,10 @@ module SparseMatrix
     def _post_addToScalar(other)
     end
 
-    def pre_addToMatrix(other)
+    def _pre_addToMatrix(other)
+        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
+        assert(other.rowSize == @rowSize, "Other has a different row size")
+        assert(other.colSize == @colSize, "Other has a different column size")
     end
 
     def _addToMatrix(other)
@@ -247,34 +254,40 @@ module SparseMatrix
     def _post_addToMatrix(other)
     end
 
-    def pre_multiplyByMatrix(other)
+    def _pre_multiplyByMatrix(other)
+        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
+        assert(other.rowSize == @colSize, "Matrix's row size does not match other matrix's column size")
     end
 
     def _multiplyByMatrix(other)
         raise NotImplementedError
     end
     
-    def post_multiplyByMatrix(other)
+    def _post_multiplyByMatrix(other)
     end
 
-    def pre_multiplyByScalar(other)
+    def _pre_multiplyByScalar(other)
+        assert(other.is_a?(Numeric), "Other is not a scalar : #{other}")
     end
 
     def _multiplyByScalar(other)
         raise NotImplementedError
     end
 
-    def post_multiplyByScalar(other)
+    def _post_multiplyByScalar(other)
     end
 
-    def pre_subtractMatrix(other)
+    def _pre_subtractMatrix(other)
+        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
+        assert(other.rowSize == @rowSize, "Other has a different row size")
+        assert(other.colSize == @colSize, "Other has a different column size")
     end
 
     def _subtractMatrix(other)
         raise NotImplementedError
     end
 
-    def post_subtractMatrix(other)
+    def _post_subtractMatrix(other)
     end
 
 end
