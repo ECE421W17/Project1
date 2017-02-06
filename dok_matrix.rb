@@ -16,201 +16,137 @@ class DoKMatrix
 
     def initialize(row, col)
         # pre conditions
-        assert(row.is_a?(Integer), "row parameter is not an integer")
-        assert(col.is_a?(Integer), "col parameter is not an integer")
-        assert(row > 0, "row parameter is not greater than zero")
-        assert(col > 0, "col parameter is not greater than zero")
+        self.pre_initialize(row, col)   
         
         # implementation
         @rowSize = row
         @colSize = col
         @internalHashRep = Hash.new(0)
 
-
-        # post conditions
-        assert(self != nil, "matrix was not created")
-        assert(@rowSize == row, "rowSize is not equal to row")
-        assert(@colSize == col, "colSize is not equal to col")
-        (0..(row-1)).each do |r|
-            (0..(col-1)).each do |c|
-                assert(self.get(r,c) == 0, "Element (#{r},#{c}) was not zero")
-            end
-        end
-
+        self.post_initialize(row, col)
         self.assert_class_invariants()
     end
     
     def get(*indices)
-        # pre-conditions
-        assert(indices[0].is_a?(Integer), "First index is not an integer")
-        assert(indices[0] >= 0, "First index is not greater or equal to zero")
-        assert(indices[0] < @rowSize, "First index is not less than first dimension")
-        assert(indices[1].is_a?(Integer), "Second index is not an integer")
-        assert(indices[1] >= 0, "Second index is not greater or equal to zero")
-        assert(indices[1] < @colSize, "Second index is not less than second dimension")
+        self.pre_get(*indices)
 
         # implementation
         ret = 0
 
-        # post-conditions
-        # None
-
+        self.post_get(*indices)
         self.assert_class_invariants()
 
         ret
     end
 
     def set(new_value, *indices)
-        # pre-conditions
-        assert(indices[0].is_a?(Integer), "First index is not an integer")
-        assert(indices[0] >= 0, "First index is not greater or equal to zero")
-        assert(indices[0] < @rowSize, "First index is not less than first dimension")
-        assert(indices[1].is_a?(Integer), "Second index is not an integer")
-        assert(indices[1] >= 0, "Second index is not greater or equal to zero")
-        assert(indices[1] < @colSize, "Second index is not less than second dimension")
-        assert(new_value.is_a?(Numeric), "New value is not numeric")
+        self.pre_set(new_value, *indices)
 
         # implementation
 
-        # post-conditions
-        i, j = indices[0..1]
-        el = self.get(i, j)
-        assert(el == new_value, "Element at (#{i}, #{j}) is #{el} instead of new value #{new_value}")
-
+        self.post_set(new_value, *indices)
         self.assert_class_invariants()
     end
 
     def +(other)
-        # pre-conditions
-        assert(other != nil, "Other is nil")
+        self.pre_plus(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_plus(other)
         self.assert_class_invariants()
     end
 
     def -(other)
-        # pre-conditions
-        assert(other != nil, "Other is nil")
+        self.pre_minus(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_minus(other)
         self.assert_class_invariants()
     end
 
     def *(other)
-        # pre-conditions
-        assert(other != nil, "Other is nil")
+        self.pre_multiply(other)
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_multiply(other)
         self.assert_class_invariants()
     end
 
 
     def /(other)
-        # pre-conditions
-        assert(other != nil, "Other is nil")
+        self.pre_divide(other)
 
         # implementation
-
-        # post-conditions
-        # None
-
+        
+        self.post_divide(other)
         self.assert_class_invariants()
     end
     
     def transpose()
-        # pre-conditions
+        self.pre_transpose()
 
         # implementation
 
-        # post-conditions
+        self.post_transpose()
 
         self.assert_class_invariants()
     end
 
     def inverse()
-        # pre-conditions
-        det = self.determinant()
-        assert(det != 0, "Determinant should be zero to invert, but it is #{det}")
+        self.pre_inverse()
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_inverse()
         self.assert_class_invariants()
     end
 
     def rank()
-        # pre-conditions
-        # None
+        self.pre_rank()
 
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_rank()
         self.assert_class_invariants()
     end
 
     def determinant()
-        # pre-conditions
-        # None
-
+        self.pre_determinant()
         # implementation
 
-        # post-conditions
-        # None
-
+        self.post_determinant()
         self.assert_class_invariants()
     end
 
     def sparsity()
-        # pre-conditions
-        # None
-
+        self.pre_sparsity()
+        
         # implementation
         ret = 0
 
-        # post-conditions
-        assert(ret >= 0 && ret <= 1, "Return value #{ret} is not a number between 0 and 1 inclusive")
-
+        self.post_sparsity()
         self.assert_class_invariants()
     end
 
     def isTridiagonal?()
-        # pre-conditions
-        # None
+        self.pre_isTridiagonal()
 
         # implementation
         ret = false
 
-        # post-conditions
-        assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
-
+        self.post_isTridiagonal()
         self.assert_class_invariants()
     end
 
     def isDiagonal?()
-        # pre-conditions
-        # None
+        self.pre_isDiagonal()
 
         # implementation
 
-        # post-conditions
-        assert(ret.is_a?(FalseClass) || ret.is_a?(TrueClass), "Return value is not a boolean : #{ret}")
-
+        self.post_isDiagonal()
         self.assert_class_invariants()
     end
 
