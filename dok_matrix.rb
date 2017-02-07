@@ -172,16 +172,7 @@ class DoKMatrix
         self.post_fromOtherMatrixType(ret)
         self.assert_class_invariants()
     end
-
-    def getType()
-        self.pre_getType()
-
-        # implementation
-
-        self.post_getType()
-        self.assert_class_invariants()
-    end
-    
+   
     def _addToScalar(other)
         self._pre_addToScalar(other)
 

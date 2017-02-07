@@ -221,17 +221,7 @@ module SparseMatrix
     def post_fromOtherMatrixType(ret)
         assert(ret != nil, "Return value is nil")
     end
-
-    def pre_getType()
-    end
-
-    def getType()
-        raise NotImplementedError
-    end
-
-    def post_getType()
-    end
-    
+   
     def _pre_addToScalar(other)
         assert(other.respond_to?(:to_f), "Other is not a scalar : #{other}")
     end
