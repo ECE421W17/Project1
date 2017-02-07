@@ -82,8 +82,9 @@ class DoKMatrix
         self.pre_transpose()
 
         # implementation
+        ret = nil
 
-        self.post_transpose()
+        self.post_transpose(ret)
 
         self.assert_class_invariants()
     end

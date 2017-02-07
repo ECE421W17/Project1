@@ -1,3 +1,7 @@
+require 'test/unit/assertions'
+
+include Test::Unit::Assertions
+
 module SparseMatrix
 
     def assert_class_invariants
@@ -116,7 +120,9 @@ module SparseMatrix
         raise NotImplementedError
     end
 
-    def post_transpose()
+    def post_transpose(ret)
+        assert(@rowSize == ret.colSize, "Row size doesn't match return matrix column size")
+        assert(@colSize == ret.rowSize, "Column size doesn't match return matrix row size")
     end
 
     def pre_inverse()
