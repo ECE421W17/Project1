@@ -9,6 +9,7 @@ class DoKMatrix
 
     def initialize(row, col)
         # pre conditions
+        self.assert_class_invariants()
         self.pre_initialize(row, col)   
         
         # implementation
@@ -21,6 +22,7 @@ class DoKMatrix
     end
     
     def get(*indices)
+        self.assert_class_invariants()
         self.pre_get(*indices)
 
         # implementation
@@ -33,6 +35,7 @@ class DoKMatrix
     end
 
     def set(new_value, *indices)
+        self.assert_class_invariants()
         self.pre_set(new_value, *indices)
 
         # implementation
@@ -42,6 +45,7 @@ class DoKMatrix
     end
 
     def +(other)
+        self.assert_class_invariants()
         self.pre_plus(other)
 
         # implementation
@@ -51,6 +55,7 @@ class DoKMatrix
     end
 
     def -(other)
+        self.assert_class_invariants()
         self.pre_minus(other)
 
         # implementation
@@ -60,6 +65,7 @@ class DoKMatrix
     end
 
     def *(other)
+        self.assert_class_invariants()
         self.pre_multiply(other)
 
         # implementation
@@ -70,6 +76,7 @@ class DoKMatrix
 
 
     def /(other)
+        self.assert_class_invariants()
         self.pre_divide(other)
 
         # implementation
@@ -79,6 +86,7 @@ class DoKMatrix
     end
     
     def transpose()
+        self.assert_class_invariants()
         self.pre_transpose()
 
         # implementation
@@ -90,6 +98,7 @@ class DoKMatrix
     end
 
     def inverse()
+        self.assert_class_invariants()
         self.pre_inverse()
 
         # implementation
@@ -99,6 +108,7 @@ class DoKMatrix
     end
 
     def rank()
+        self.assert_class_invariants()
         self.pre_rank()
 
         # implementation
@@ -108,6 +118,7 @@ class DoKMatrix
     end
 
     def determinant()
+        self.assert_class_invariants()
         self.pre_determinant()
         # implementation
 
@@ -116,6 +127,7 @@ class DoKMatrix
     end
 
     def sparsity()
+        self.assert_class_invariants()
         self.pre_sparsity()
         
         # implementation
@@ -126,6 +138,7 @@ class DoKMatrix
     end
 
     def isTridiagonal?()
+        self.assert_class_invariants()
         self.pre_isTridiagonal()
 
         # implementation
@@ -136,6 +149,7 @@ class DoKMatrix
     end
 
     def isDiagonal?()
+        self.assert_class_invariants()
         self.pre_isDiagonal()
 
         # implementation
@@ -146,6 +160,7 @@ class DoKMatrix
     end
 
     def to_s()
+        self.assert_class_invariants()
         self.pre_to_s()
 
         # implementation
@@ -155,6 +170,7 @@ class DoKMatrix
     end
 
     def iterate()
+        self.assert_class_invariants()
         self.pre_iterate()
 
         # implementation
@@ -162,18 +178,9 @@ class DoKMatrix
         self.post_iterate()
         self.assert_class_invariants()
     end
-
-    def fromOtherMatrixType(other)
-        self.pre_fromOtherMatrixType(other)
-
-        # implementation
-        ret = 0
-
-        self.post_fromOtherMatrixType(ret)
-        self.assert_class_invariants()
-    end
-   
+  
     def _addToScalar(other)
+        self.assert_class_invariants()
         self._pre_addToScalar(other)
 
         # implementation
@@ -183,6 +190,7 @@ class DoKMatrix
     end
 
     def _addToMatrix(other)
+        self.assert_class_invariants()
         self._pre_addToMatrix(other)
 
         # implementation
@@ -192,6 +200,7 @@ class DoKMatrix
     end
 
     def _multiplyByMatrix(other)
+        self.assert_class_invariants()
         self._pre_multiplyByMatrix(other)
 
         # implementation
@@ -201,6 +210,7 @@ class DoKMatrix
     end
 
     def _multiplyByScalar(other)
+        self.assert_class_invariants()
         self._pre_multiplyByScalar(other)
 
         # implementation
@@ -210,6 +220,7 @@ class DoKMatrix
     end
 
     def _subtractMatrix(other)
+        self.assert_class_invariants()
         self._pre_subtractMatrix(other)
 
         # implementation
