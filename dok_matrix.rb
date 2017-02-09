@@ -4,29 +4,32 @@ include Test::Unit::Assertions
 
 require_relative 'sparse_matrix'
 
+require 'matrix'
+
 class DoKMatrix
     include SparseMatrix
 
     def initialize(row, col)
-        # pre conditions
-        self.assert_class_invariants()
         self.pre_initialize(row, col)   
         
         # implementation
         @rowSize = row
         @colSize = col
-        @internalHashRep = Hash.new(0)
+        @internalHash = Hash.new(0)
 
         self.post_initialize(row, col)
         self.assert_class_invariants()
+    end
+
+    def _get_delegate_matrix
+        Matrix.build(@rowSize, @colSize) { |row, col| get(row, col) }
     end
     
     def get(*indices)
         self.assert_class_invariants()
         self.pre_get(*indices)
 
-        # implementation
-        ret = 0
+        ret = @internalHash[indices]
 
         self.post_get(*indices)
         self.assert_class_invariants()
@@ -38,7 +41,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_set(new_value, *indices)
 
-        # implementation
+        @internalHash[indices] = new_value
 
         self.post_set(new_value, *indices)
         self.assert_class_invariants()
@@ -111,19 +114,24 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_rank()
 
-        # implementation
+        ret = _get_delegate_matrix.rank
 
         self.post_rank()
         self.assert_class_invariants()
+
+        ret
     end
 
     def determinant()
         self.assert_class_invariants()
         self.pre_determinant()
-        # implementation
+
+        ret = _get_delegate_matrix.determinant
 
         self.post_determinant()
         self.assert_class_invariants()
+
+        ret
     end
 
     def sparsity()
@@ -141,11 +149,12 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_isTridiagonal()
 
-        # implementation
-        ret = false
+        ret = @rowSize == @colSize && !@internalHash.any? { |key, value| (key[0] - key[1]).abs > 1 && value != 0 }
 
         self.post_isTridiagonal(ret)
         self.assert_class_invariants()
+        
+        ret
     end
 
     def isDiagonal?()
@@ -173,7 +182,13 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_iterate()
 
-        # implementation
+        # passes to the block the row, column, and value
+        (0..@rowSize).each do |r|
+            (0..@colSize).each do |c|
+                val = get(r,c)
+                yield(r, c, val)
+            end
+        end
 
         self.post_iterate()
         self.assert_class_invariants()
