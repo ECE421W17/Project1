@@ -1,6 +1,21 @@
 m
 class SparseMatrix
 
+    def initialize()
+        @internal_rep = Hash.new(0)
+    end
+
+    def initialize(*arrays)
+        @internal_rep = Hash.new(0)
+        arrays.each_with_index do |row, i|
+            row.each_with_index do |element, j|
+                if element != 0
+                    @internal_rep[[i,j]] = element
+                end
+            end
+        end
+    end
+
     def +(other)
         if other.is_a(SparseMatrix)
             _addToMatrix(other)
@@ -26,9 +41,11 @@ class SparseMatrix
     end
 
     def get(*indices)
+        @internal_rep[indices]
     end
 
     def set(new_value, *indices)
+        @internal_rep[indices] = new_value
     end
 
     def transpose()
@@ -58,3 +75,5 @@ class SparseMatrix
     def _subtractMatrix(other)
     end
 end
+
+
