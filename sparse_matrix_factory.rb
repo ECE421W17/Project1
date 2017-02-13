@@ -1,33 +1,18 @@
-require 'sparse_matrix'
+require './dok_matrix'
 
 class SparseMatrixFactory < AbstractMatrixFactory
-
-    @matrix
-    def initialize()
-        # no pre or post conditions
+    def self.makeMatrixWithRowsCols(rows, cols)
+        pre_makeMatrixWithRowsCols(rows, cols)
+        matrix = DoKMatrix.new(rows, cols)
+        matrix
     end
 
-    def initialize(rows, cols)
-        makeMatrix(rows, cols)
-    end
-
-    def initialize(content)
-        makeMatrix(content)
-    end
-
-    def makeMatrix(rows, cols)
-        pre_makeMatrix(rows, cols)
+    def self.makeMatrixWithMatrix(content)
+        makeMatrixWithMatrix(content)
         # no class invariants
         # implementation
-        matrix = sparse_matrix.new(row, col)
-        post_makeMatrix(rows, cols)
-    end
-
-    def makeMatrix(content)
-        pre_makeMatrix(content)
-        matrix = sparse_matrix.new(content)
-        # no class invariants
-        # implementation
-        post_makeMatrix(content)
+        matrix = DoKMatrix.new(1, 2)
+        matrix
+        makeMatrixWithMatrix(content)
     end
 end
