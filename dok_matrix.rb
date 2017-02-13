@@ -9,9 +9,10 @@ require 'matrix'
 class DoKMatrix
     include SparseMatrix
 
+    # Done?
     def initialize(row, col)
-        self.pre_initialize(row, col)   
-        
+        self.pre_initialize(row, col)
+
         # implementation
         @rowSize = row
         @colSize = col
@@ -24,7 +25,7 @@ class DoKMatrix
     def _get_delegate_matrix
         Matrix.build(@rowSize, @colSize) { |row, col| get(row, col) }
     end
-    
+
     def get(*indices)
         self.assert_class_invariants()
         self.pre_get(*indices)
@@ -51,20 +52,36 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_plus(other)
 
-        # implementation
+        # Do we want to check if it is a SparseMatrix instead? Could be more extensible that way
+        if other.is_a? DoKMatrix
+          new_matrix = self._addToMatrix(other)
+        else
+          new_matrix = self._addToScalar(other)
+        end
 
         self.post_plus(other)
         self.assert_class_invariants()
+
+        new_matrix
     end
 
     def -(other)
         self.assert_class_invariants()
         self.pre_minus(other)
 
-        # implementation
+        if other.is_a? DoKMatrix
+          new_matrix = self._subtractMatrix(other)
+        else
+          # Need to assert somewhere that other responds to multiplication
+          #  Or make a sub-method, like in matrix subtraction, and do the assertion there instead
+          other_negated = other * -1
+          new_matrix = self._addToScalar(other_negated)
+        end
 
         self.post_minus(other)
         self.assert_class_invariants()
+
+        new_matrix
     end
 
     def *(other)
@@ -83,11 +100,11 @@ class DoKMatrix
         self.pre_divide(other)
 
         # implementation
-        
+
         self.post_divide(other)
         self.assert_class_invariants()
     end
-    
+
     def transpose()
         self.assert_class_invariants()
         self.pre_transpose()
@@ -137,7 +154,7 @@ class DoKMatrix
     def sparsity()
         self.assert_class_invariants()
         self.pre_sparsity()
-        
+
         # implementation
         ret = 0
 
@@ -153,7 +170,7 @@ class DoKMatrix
 
         self.post_isTridiagonal(ret)
         self.assert_class_invariants()
-        
+
         ret
     end
 
@@ -183,8 +200,8 @@ class DoKMatrix
         self.pre_iterate()
 
         # passes to the block the row, column, and value
-        (0..@rowSize).each do |r|
-            (0..@colSize).each do |c|
+        (0..@rowSize - 1).each do |r|
+            (0..@colSize - 1).each do |c|
                 val = get(r,c)
                 yield(r, c, val)
             end
@@ -193,25 +210,37 @@ class DoKMatrix
         self.post_iterate()
         self.assert_class_invariants()
     end
-  
+
     def _addToScalar(other)
         self.assert_class_invariants()
         self._pre_addToScalar(other)
 
-        # implementation
+        self.iterate { |row, col, val|
+          self.set(val + other.to_f, row, col)
+        }
 
         self._post_addToScalar(other)
         self.assert_class_invariants()
+
+        self
     end
 
     def _addToMatrix(other)
         self.assert_class_invariants()
         self._pre_addToMatrix(other)
 
-        # implementation
+        self_delegate_matrix = self._get_delegate_matrix
+        other_delegate_matrix = other._get_delegate_matrix
+
+        updated_matrix = self_delegate_matrix + other_delegate_matrix
+        updated_matrix.each_with_index {
+          |val, row, col| self.set(val, row, col)
+        }
 
         self._post_addToMatrix(other)
         self.assert_class_invariants()
+
+        self
     end
 
     def _multiplyByMatrix(other)
@@ -238,9 +267,17 @@ class DoKMatrix
         self.assert_class_invariants()
         self._pre_subtractMatrix(other)
 
-        # implementation
+        self_delegate_matrix = self._get_delegate_matrix
+        other_delegate_matrix = other._get_delegate_matrix
+
+        updated_matrix = self_delegate_matrix - other_delegate_matrix
+        updated_matrix.each_with_index {
+          |val, row, col| self.set(val, row, col)
+        }
 
         self._post_subtractMatrix(other)
         self.assert_class_invariants()
+
+        self
     end
 end

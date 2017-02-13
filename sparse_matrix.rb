@@ -6,11 +6,11 @@ module SparseMatrix
 
     def assert_class_invariants
         assert(@rowSize.respond_to?(:to_i), "Row size is not an integer")
-        assert(@colSize.respond_to?(:to_i), "Column size is not an integer")        
+        assert(@colSize.respond_to?(:to_i), "Column size is not an integer")
         assert(@rowSize > 0, "Row size is not greater than zero")
         assert(@colSize > 0, "Column size is not greater than zero")
     end
-    
+
     def pre_initialize(row, col)
         assert(row.respond_to?(:to_i), "row parameter is not an integer")
         assert(col.respond_to?(:to_i), "col parameter is not an integer")
@@ -32,7 +32,7 @@ module SparseMatrix
             end
         end
     end
-    
+
     def pre_get(*indices)
         assert(indices[0].respond_to?(:to_i), "First index is not an integer")
         assert(indices[0] >= 0, "First index is not greater or equal to zero")
@@ -48,7 +48,7 @@ module SparseMatrix
 
     def post_get(*indices)
     end
-    
+
     def pre_set(new_value, *indices)
         assert(indices[0].respond_to?(:to_i), "First index is not an integer")
         assert(indices[0] >= 0, "First index is not greater or equal to zero")
@@ -209,7 +209,7 @@ module SparseMatrix
 
     def post_iterate()
     end
-  
+
     def _pre_addToScalar(other)
         assert(other.respond_to?(:to_f), "Other is not a scalar : #{other}")
     end
@@ -222,9 +222,10 @@ module SparseMatrix
     end
 
     def _pre_addToMatrix(other)
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @rowSize, "Other has a different row size")
-        assert(other.colSize == @colSize, "Other has a different column size")
+        assert(other.respond_to? :_get_delegate_matrix, "A delegate matrix cannot be created using the given object")
+
+        assert(other.instance_variable_get("@rowSize") == @rowSize, "Other has a different row size")
+        assert(other.instance_variable_get("@colSize") == @colSize, "Other has a different column size")
     end
 
     def _addToMatrix(other)
@@ -242,7 +243,7 @@ module SparseMatrix
     def _multiplyByMatrix(other)
         raise NotImplementedError
     end
-    
+
     def _post_multiplyByMatrix(other)
     end
 
