@@ -162,9 +162,13 @@ class DoKMatrix
 
         # implementation
         ret = 0
+        iterate(){|r, c, val| (val != 0? ret:ret = ret + 1)}
+        sparsity = ret/(@rowSize * @colSize)
 
-        self.post_sparsity(ret)
+        self.post_sparsity(sparsity)
         self.assert_class_invariants()
+
+        sparsity
     end
 
     def isTridiagonal?()
@@ -195,6 +199,7 @@ class DoKMatrix
         self.pre_to_s()
 
         # implementation
+        iterate(){|r, c, val| puts "[#{r+1},#{c+1}, value:#{val}]"}
 
         self.post_to_s()
         self.assert_class_invariants()
