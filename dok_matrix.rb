@@ -137,10 +137,17 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_inverse()
 
-        # implementation
+        inverse_matrix = _get_delegate_matrix.inverse
+        ret = DoKMatrix.new(@rowSize, @colSize);
+
+        inverse_matrix.each_with_index {
+          |val, row, col| ret.set(val.to_f, row, col)
+        }
 
         self.post_inverse()
         self.assert_class_invariants()
+
+        ret
     end
 
     def rank()
