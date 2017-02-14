@@ -197,7 +197,7 @@ class DoKMatrix
 
         ret = 0
         iterate(){|r, c, val| (val != 0? ret:ret = ret + 1)}
-        sparsity = ret/(@rowSize * @colSize)
+        sparsity = 1.0 * ret/(@rowSize * @colSize)
 
         self.post_sparsity(sparsity)
         self.assert_class_invariants()
