@@ -121,13 +121,13 @@ module SparseMatrix
     end
 
     def post_transpose(ret)
-        assert(@rowSize == ret.colSize, "Row size doesn't match return matrix column size")
-        assert(@colSize == ret.rowSize, "Column size doesn't match return matrix row size")
+        assert(@rowSize == ret.column_count, "Row size doesn't match return matrix column size")
+        assert(@colSize == ret.row_count, "Column size doesn't match return matrix row size")
     end
 
     def pre_inverse()
         det = self.determinant()
-        assert(det != 0, "Determinant should be zero to invert, but it is #{det}")
+        assert(det != 0, "Determinant should not be zero to invert, but it is #{det}")
     end
 
     def inverse()
@@ -222,10 +222,12 @@ module SparseMatrix
     end
 
     def _pre_addToMatrix(other)
-        assert(other.respond_to? :_get_delegate_matrix, "A delegate matrix cannot be created using the given object")
+        assert(other.respond_to? :row_count, "The given object does not provide a row count")
+        assert(other.respond_to? :column_count, "The given object does not provide a column count")
+        assert(other.respond_to? :[], "The given object does not support the '[]' operator")
 
-        assert(other.instance_variable_get("@rowSize") == @rowSize, "Other has a different row size")
-        assert(other.instance_variable_get("@colSize") == @colSize, "Other has a different column size")
+        assert(other.row_count == @rowSize, "Other has a different row size")
+        assert(other.column_count == @colSize, "Other has a different column size")
     end
 
     def _addToMatrix(other)
@@ -236,8 +238,10 @@ module SparseMatrix
     end
 
     def _pre_multiplyByMatrix(other)
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @colSize, "Matrix's row size does not match other matrix's column size")
+        assert(other.respond_to? :row_count, "The given object does not provide a row count")
+        assert(other.respond_to? :column_count, "The given object does not provide a column count")
+        assert(other.respond_to? :[], "The given object does not support the '[]' operator")
+        assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
     end
 
     def _multiplyByMatrix(other)
@@ -258,14 +262,24 @@ module SparseMatrix
     def _post_multiplyByScalar(other)
     end
 
+    def _pre_subtractScalar(other)
+      assert(other.respond_to?(:*), "Other does not support the '*' operator")
+    end
+
     def _pre_subtractMatrix(other)
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @rowSize, "Other has a different row size")
-        assert(other.colSize == @colSize, "Other has a different column size")
+      assert(other.respond_to? :row_count, "Other does not provide a row count")
+      assert(other.respond_to? :column_count, "Other does not provide a column count")
+      assert(other.respond_to? :[], "Other does not support the '[]' operator")
+
+      assert(other.row_count == @rowSize, "Other has a different row size")
+      assert(other.column_count == @colSize, "Other has a different column size")
     end
 
     def _subtractMatrix(other)
         raise NotImplementedError
+    end
+
+    def _post_subtractScalar(other)
     end
 
     def _post_subtractMatrix(other)
