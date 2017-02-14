@@ -30,7 +30,7 @@ class DoKMatrix
         (0..matrix.row_size - 1).each do |r|
             (0..matrix.column_size - 1).each do |c|
                 val = matrix.[](r,c)
-                newMatrix.set(val, r,c)
+                newMatrix.set(r,c,val)
             end
         end
         newMatrix
@@ -67,7 +67,7 @@ class DoKMatrix
         ret
     end
 
-    def set(new_value, *indices)
+    def set(*indices, new_value)
         self.assert_class_invariants()
         self.pre_set(new_value, *indices)
 
@@ -152,7 +152,7 @@ class DoKMatrix
         ret = DoKMatrix.new(@colSize, @rowSize);
 
         delegate_matrix.each_with_index {
-          |val, row, col| ret.set(val, row, col)
+          |val, row, col| ret.set(row, col, val)
         }
 
         self.post_transpose(ret)
@@ -169,7 +169,7 @@ class DoKMatrix
         ret = DoKMatrix.new(@rowSize, @colSize);
 
         inverse_matrix.each_with_index {
-          |val, row, col| ret.set(val.to_f, row, col)
+          |val, row, col| ret.set(row, col, val.to_f)
         }
 
         self.post_inverse()
@@ -260,7 +260,7 @@ class DoKMatrix
 
         new_dok_matrix = DoKMatrix.new(@rowSize, @colSize)
         self.iterate { |row, col, val|
-          new_dok_matrix.set(val + other.to_f, row, col)
+          new_dok_matrix.set(row, col, val + other.to_f)
         }
 
         self._post_addToScalar(other)
@@ -275,7 +275,7 @@ class DoKMatrix
 
         new_dok_matrix = DoKMatrix.new(@rowSize, @colSize)
         self.iterate {
-          |row, col, val| new_dok_matrix.set(val + other[row, col], row, col)
+          |row, col, val| new_dok_matrix.set(row, col, val + other[row, col])
         }
 
         self._post_addToMatrix(other)
@@ -292,7 +292,7 @@ class DoKMatrix
         new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
 
         updated_matrix.each_with_index {
-          |val, row, col| new_dok_matrix.set(val, row, col)
+          |val, row, col| new_dok_matrix.set(row, col, val)
         }
 
         self._post_multiplyByDoKMatrix(other)
@@ -309,7 +309,7 @@ class DoKMatrix
         new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
 
         updated_matrix.each_with_index {
-          |val, row, col| new_dok_matrix.set(val, row, col)
+          |val, row, col| new_dok_matrix.set(row, col, val)
         }
 
         self._post_multiplyByMatrix(other)
@@ -324,7 +324,7 @@ class DoKMatrix
 
         new_dok_matrix = DoKMatrix.new(@rowSize, @colSize)
         self.iterate { |row, col, val|
-          new_dok_matrix.set(val * other.to_f, row, col)
+          new_dok_matrix.set(row, col, val * other.to_f)
         }
 
         self._post_multiplyByScalar(other)
@@ -351,7 +351,7 @@ class DoKMatrix
 
         new_matrix = DoKMatrix.new(@rowSize, @colSize)
         self.iterate { |row, col, val|
-          new_matrix.set((val / other).to_f, row, col)
+          new_matrix.set(row, col, (val / other).to_f)
         }
 
         self._post_divideByScalar(other)
@@ -378,7 +378,7 @@ class DoKMatrix
 
         new_dok_matrix = DoKMatrix.new(@rowSize, @colSize)
         self.iterate {
-          |row, col, val| new_dok_matrix.set(val - other[row, col], row, col)
+          |row, col, val| new_dok_matrix.set(row, col, val - other[row, col])
         }
 
         self._post_subtractMatrix(other)
@@ -388,8 +388,8 @@ class DoKMatrix
     end
 
     alias :[] :get
+    alias :[]= :set
     alias :inv :inverse
     alias :det :determinant
     alias :t :transpose
-
 end
