@@ -93,10 +93,16 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_multiply(other)
 
-        # implementation
+        if other.respond_to? :to_f
+          new_matrix = self._multiplyByScalar(other)
+        else
+          new_matrix = self._multiplyByMatrix(other)
+        end
 
         self.post_multiply(other)
         self.assert_class_invariants()
+
+        new_matrix
     end
 
 
