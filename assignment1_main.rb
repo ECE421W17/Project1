@@ -64,23 +64,23 @@ puts '***********************************'
 
 myMatrix = DoKMatrix.new(3, 2)
 myMatrix.set(1, 0, 1)
-myMatrix.to_s
+puts myMatrix.to_s
 
 transposed = DoKMatrix.new(2, 3)
 transposed = myMatrix.transpose
-transposed.to_s
+puts transposed.to_s
 
 myMatrix = myMatrix._multiplyByScalar(2)
-myMatrix.to_s
+puts myMatrix.to_s
 
 newMatrix = myMatrix._multiplyByDoKMatrix(transposed)
-newMatrix.to_s
+puts newMatrix.to_s
 
 myMatrix = myMatrix*2
-myMatrix.to_s
+puts myMatrix.to_s
 
 myMatrix = myMatrix*transposed
-myMatrix.to_s
+puts myMatrix.to_s
 
 myOther = DoKMatrix.new(3, 3)
 myOther.set(0, 0, 1)
@@ -88,21 +88,21 @@ myOther.set(1, 1, 1)
 myOther.set(1, 2, 1)
 myOther.set(1, 0, 1)
 myOther.set(2, 2, 1)
-myOther.inverse.to_s
+puts myOther.inverse.to_s
 myOtherInverse = myOther.inverse
 
-(myOther / myOtherInverse).to_s
+puts (myOther / myOtherInverse).to_s
 
 myMatrix = myMatrix / 2
-myMatrix.to_s
+puts myMatrix.to_s
 
 aMatrix = Matrix.build(3, 2) {|row, col| 1}
 mult = myMatrix * aMatrix
-mult.to_s
+puts mult.to_s
 
 
 aMatrix = Matrix.build(3, 3) {|row, col| 1}
 aMatrix.send(:[]=, 0, 2, 0)
 aMatrix.send(:[]=, 2, 0, 0)
 mult = myMatrix / aMatrix
-mult.to_s
+puts mult.to_s

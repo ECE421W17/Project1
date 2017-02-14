@@ -81,10 +81,10 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_equals(other)
 
-        ret = other != nil && 
-            other.respond_to?(:to_matrix) && 
+        ret = other != nil &&
+            other.respond_to?(:to_matrix) &&
             to_matrix == other.to_matrix
-         
+
         self.post_equals(other)
         self.assert_class_invariants()
 
@@ -246,10 +246,12 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_to_s()
 
-        iterate(){|r, c, val| puts "[#{r},#{c}, value:#{val}]"}
+        ret = "Sparse" + self.to_matrix.to_s
 
         self.post_to_s()
         self.assert_class_invariants()
+
+        ret
     end
 
     def iterate()
