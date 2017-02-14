@@ -34,7 +34,7 @@ module SparseMatrix
     end
 
     def rows(other)
-        
+
     end
 
     def pre_get(*indices)
@@ -241,10 +241,22 @@ module SparseMatrix
     def _post_addToMatrix(other)
     end
 
-    def _pre_multiplyByMatrix(other)
-        assert(other.respond_to? :row_count, "The given object does not provide a row count")
+    def _pre_multiplyByDoKMatrix(other)
+        assert(other.respond_to? :_get_delegate_matrix, "The given object cannot convert to a matrix")
         assert(other.respond_to? :column_count, "The given object does not provide a column count")
-        assert(other.respond_to? :[], "The given object does not support the '[]' operator")
+        assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
+    end
+
+    def _multiplyByDoKMatrix(other)
+        raise NotImplementedError
+    end
+
+    def _post_multiplyByDoKMatrix(other)
+    end
+
+    def _pre_multiplyByMatrix(other)
+        assert(other.respond_to? :each_with_index, "The given object does not iterate like a matrix")
+        assert(other.respond_to? :column_count, "The given object does not provide a column count")
         assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
     end
 
@@ -264,6 +276,29 @@ module SparseMatrix
     end
 
     def _post_multiplyByScalar(other)
+    end
+
+    def _pre_divideByMatrix(other)
+        assert(other.respond_to? :inverse, "The given object cannot compute its inverse")
+        assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
+    end
+
+    def _divideByMatrix(other)
+        raise NotImplementedError
+    end
+
+    def _post_divideByMatrix(other)
+    end
+
+    def _pre_divideByScalar(other)
+        assert(other.respond_to?(:to_f), "Other is not a scalar : #{other}")
+    end
+
+    def _divideByScalar(other)
+        raise NotImplementedError
+    end
+
+    def _post_divideByScalar(other)
     end
 
     def _pre_subtractScalar(other)

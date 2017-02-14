@@ -13,7 +13,6 @@ class DoKMatrix
     def initialize(row, col)
         self.pre_initialize(row, col)
 
-        # implementation
         @rowSize = row
         @colSize = col
         @internalHash = Hash.new(0)
@@ -107,6 +106,8 @@ class DoKMatrix
 
         if other.respond_to? :to_f
           new_matrix = self._multiplyByScalar(other)
+        elsif other.respond_to? :_get_delegate_matrix
+          new_matrix = self._multiplyByDoKMatrix(other)
         else
           new_matrix = self._multiplyByMatrix(other)
         end
@@ -123,12 +124,11 @@ class DoKMatrix
         self.pre_divide(other)
 
         if other.respond_to? :to_f
-          new_matrix = DoKMatrix.new(@rowSize, @colSize)
-          self.iterate { |row, col, val|
-            new_matrix.set((val / other).to_f, row, col)
-          }
+          new_matrix = self._divideByScalar(other)
+        # elsif other.respond_to? :_get_delegate_matrix
+        #   new_matrix = self._divideByDoKMatrix
         else
-          new_matrix = self * other.inverse
+          new_matrix = self._divideByMatrix(other)
         end
 
         self.post_divide(other)
@@ -199,7 +199,6 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_sparsity()
 
-        # implementation
         ret = 0
         iterate(){|r, c, val| (val != 0? ret:ret = ret + 1)}
         sparsity = ret/(@rowSize * @colSize)
@@ -226,7 +225,6 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_isDiagonal()
 
-        # implementation
         ret = false
 
         self.post_isDiagonal(ret)
@@ -237,7 +235,6 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_to_s()
 
-        # implementation
         iterate(){|r, c, val| puts "[#{r+1},#{c+1}, value:#{val}]"}
 
         self.post_to_s()
@@ -290,11 +287,28 @@ class DoKMatrix
         new_dok_matrix
     end
 
+    def _multiplyByDoKMatrix(other)
+        self.assert_class_invariants()
+        self._pre_multiplyByDoKMatrix(other)
+
+        updated_matrix = self._get_delegate_matrix * other._get_delegate_matrix
+        new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
+
+        updated_matrix.each_with_index {
+          |val, row, col| new_dok_matrix.set(val, row, col)
+        }
+
+        self._post_multiplyByDoKMatrix(other)
+        self.assert_class_invariants()
+
+        new_dok_matrix
+    end
+
     def _multiplyByMatrix(other)
         self.assert_class_invariants()
         self._pre_multiplyByMatrix(other)
 
-        updated_matrix = self._get_delegate_matrix * other._get_delegate_matrix
+        updated_matrix = self._get_delegate_matrix * other
         new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
 
         updated_matrix.each_with_index {
@@ -320,6 +334,33 @@ class DoKMatrix
         self.assert_class_invariants()
 
         new_dok_matrix
+    end
+
+    def _divideByMatrix(other)
+        self.assert_class_invariants()
+        self._pre_divideByMatrix(other)
+
+        new_matrix = self * other.inverse
+
+        self._post_divideByMatrix(other)
+        self.assert_class_invariants()
+
+        new_matrix
+    end
+
+    def _divideByScalar(other)
+        self.assert_class_invariants()
+        self._pre_divideByScalar(other)
+
+        new_matrix = DoKMatrix.new(@rowSize, @colSize)
+        self.iterate { |row, col, val|
+          new_matrix.set((val / other).to_f, row, col)
+        }
+
+        self._post_divideByScalar(other)
+        self.assert_class_invariants()
+
+        new_matrix
     end
 
     def _subtractScalar(other)
