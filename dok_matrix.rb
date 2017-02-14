@@ -36,6 +36,17 @@ class DoKMatrix
         newMatrix
     end
 
+    def self.toMatrix(other)
+        newMatrix = DoKMatrix.new(other.row_size, other.column_size)
+        (0..other.row_size - 1).each do |r|
+            (0..other.column_size - 1).each do |c|
+                val = other.[](r,c)
+                newMatrix.set(val, r,c)
+            end
+        end
+        newMatrix
+    end
+
     def row_count
       @rowSize
     end
