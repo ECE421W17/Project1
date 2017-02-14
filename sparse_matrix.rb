@@ -261,7 +261,7 @@ module SparseMatrix
     end
 
     def _pre_subtractScalar(other)
-      # ...
+      assert(other.respond_to?(:*), "Other does not support the '*' operator")
     end
 
     def _pre_subtractMatrix(other)
@@ -278,7 +278,6 @@ module SparseMatrix
     end
 
     def _post_subtractScalar(other)
-      assert(other.respond_to?(:*), "Other does not support the '*' operator")
     end
 
     def _post_subtractMatrix(other)
