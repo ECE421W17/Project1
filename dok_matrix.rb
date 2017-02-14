@@ -9,7 +9,7 @@ require 'matrix'
 class DoKMatrix
     include SparseMatrix
 
-    # Done?
+    # TODO: Determine whether this is complete
     def initialize(row, col)
         self.pre_initialize(row, col)
 
@@ -71,7 +71,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_plus(other)
 
-        # Appropriate to use a means differentiating between scalars?
+        # TODO: Determine if this is an appropriate means of differentiating between scalars and non-scalars
         if other.respond_to? :to_f
           new_matrix = self._addToScalar(other)
         else
@@ -221,6 +221,7 @@ class DoKMatrix
         ret
     end
 
+    # TODO: Remove?
     def isDiagonal?()
         self.assert_class_invariants()
         self.pre_isDiagonal()
@@ -391,5 +392,7 @@ class DoKMatrix
     end
 
     alias :[] :get
-    # alias :[]= :set # Double check if this works; order of arguments in set
+
+    # TODO: Double check if this works? Order of arguments in set may not be compatible with the default method signature of the '[]=' operator
+    # alias :[]= :set
 end
