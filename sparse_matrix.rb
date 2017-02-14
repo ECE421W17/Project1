@@ -76,6 +76,16 @@ module SparseMatrix
         assert(el == new_value, "Element at (#{i}, #{j}) is #{el} instead of new value #{new_value}")
     end
 
+    def pre_equals(other)
+    end
+
+    def ==(other)
+        raise NotImplementedError
+    end
+
+    def post_equals(other)
+    end
+
     def pre_plus(other)
         assert(other != nil, "Other is nil")
     end
@@ -245,7 +255,7 @@ module SparseMatrix
     end
 
     def _pre_multiplyByDoKMatrix(other)
-        assert(other.respond_to? :_get_delegate_matrix, "The given object cannot convert to a matrix")
+        assert(other.respond_to? :to_matrix, "The given object cannot convert to a matrix")
         assert(other.respond_to? :column_count, "The given object does not provide a column count")
         assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
     end
@@ -328,4 +338,21 @@ module SparseMatrix
     def _post_subtractMatrix(other)
     end
 
+    def _pre_row(index)
+      assert(index.respond_to?(:to_i), "Index is not an integer")
+      assert(index >= 0, "Index is not greater or equal to zero")
+      assert(index < @rowSize, "Index is not less than first dimension")
+    end
+
+    def _post_row(index)
+    end
+
+    def _pre_column(index)
+      assert(index.respond_to?(:to_i), "Index is not an integer")
+      assert(index >= 0, "Index is not greater or equal to zero")
+      assert(index < @colSize, "Index is not less than second dimension")
+    end
+
+    def _post_column(index)
+    end
 end
