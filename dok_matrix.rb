@@ -123,8 +123,6 @@ class DoKMatrix
 
         if other.respond_to? :to_f
           new_matrix = self._divideByScalar(other)
-        # elsif other.respond_to? :_get_delegate_matrix
-        #   new_matrix = self._divideByDoKMatrix
         else
           new_matrix = self._divideByMatrix(other)
         end
