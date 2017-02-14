@@ -36,7 +36,7 @@ class DoKMatrix
         newMatrix
     end
 
-    def self.toMatrix(other)
+    def self.toSparseMatrix(other)
         newMatrix = DoKMatrix.new(other.row_size, other.column_size)
         (0..other.row_size - 1).each do |r|
             (0..other.column_size - 1).each do |c|

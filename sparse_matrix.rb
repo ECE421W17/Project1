@@ -37,7 +37,7 @@ module SparseMatrix
 
     end
 
-    def toMatrix(other)
+    def toSpraseMatrix(other)
     end
 
     def pre_get(*indices)

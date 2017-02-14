@@ -22,7 +22,7 @@ class SparseMatrixFactory
 
     def makeMatrixWithMatrix(content)
         self.pre_makeMatrixWithMatrix(content)
-        matrix = DoKMatrix.toMatrix(content)
+        matrix = DoKMatrix.toSparseMatrix(content)
         self.post_makeMatrixWithMatrix(content)
         matrix
     end
