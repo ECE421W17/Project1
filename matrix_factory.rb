@@ -1,15 +1,21 @@
 require 'matrix'
+require_relative './abstract_matrix_factory'
 
-class MatrixFactory < AbstractMatrixFactory
-    def self.makeMatrixWithRowsCols(rows, cols)
+class MatrixFactory include AbstractMatrixFactory
+    def initialize()
+    end
+    def makeMatrixWithRowsCols(rows, cols)
+        self.pre_makeMatrixWithRowsCols(rows, cols)
         matrix = Matrix.build(rows, cols){|row, col| 0}
+        self.post_makeMatrixWithRowsCols(rows, cols)
         matrix
     end
 
-    def self.makeMatrixWithMatrix(content)
-        # no class invariants
+    def makeMatrixWithMatrix(content)
+        self.pre_makeMatrixWithMatrix(content)
         # implementation
         matrix = Matrix.columns(content)
+        self.post_makeMatrixWithMatrix(content)
         matrix
     end
 end

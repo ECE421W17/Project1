@@ -26,6 +26,20 @@ class DoKMatrix
         Matrix.build(@rowSize, @colSize) { |row, col| get(row, col) }
     end
 
+    def self.rows(other)
+        matrix = Matrix.rows(other)
+        newMatrix = DoKMatrix.new(matrix.row_size, matrix.column_size)
+        (0..matrix.row_size - 1).each do |r|
+            (0..matrix.column_size - 1).each do |c|
+                val = matrix.[](r,c)
+                newMatrix.set(val, r,c)
+            end
+        end
+        newMatrix
+    end
+
+
+
     def get(*indices)
         self.assert_class_invariants()
         self.pre_get(*indices)
