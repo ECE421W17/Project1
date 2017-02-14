@@ -33,6 +33,10 @@ module SparseMatrix
         end
     end
 
+    def rows(other)
+        
+    end
+
     def pre_get(*indices)
         assert(indices[0].respond_to?(:to_i), "First index is not an integer")
         assert(indices[0] >= 0, "First index is not greater or equal to zero")

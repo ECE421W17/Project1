@@ -12,7 +12,7 @@ class SparseMatrixFactory include AbstractMatrixFactory
         matrix
     end
 
-    def self.makeMatrixWithMatrix(content)
+    def makeMatrixWithMatrix(content)
         self.pre_makeMatrixWithMatrix(content)
         matrix = DoKMatrix.rows(content)
         self.post_makeMatrixWithMatrix(content)

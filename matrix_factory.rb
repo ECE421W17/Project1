@@ -14,7 +14,7 @@ class MatrixFactory include AbstractMatrixFactory
     def makeMatrixWithMatrix(content)
         self.pre_makeMatrixWithMatrix(content)
         # implementation
-        matrix = Matrix.columns(content)
+        matrix = Matrix.rows(content)
         self.post_makeMatrixWithMatrix(content)
         matrix
     end
