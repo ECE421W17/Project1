@@ -292,6 +292,7 @@ module SparseMatrix
 
     def _pre_divideByScalar(other)
         assert(other.respond_to?(:to_f), "Other is not a scalar : #{other}")
+        assert(other != 0, "Other is 0. Cannot divide by 0")
     end
 
     def _divideByScalar(other)
