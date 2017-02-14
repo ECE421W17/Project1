@@ -1,7 +1,8 @@
 require './dok_matrix'
 require_relative './abstract_matrix_factory'
 
-class SparseMatrixFactory include AbstractMatrixFactory
+class SparseMatrixFactory 
+    include AbstractMatrixFactory
     def initialize()
     end
 

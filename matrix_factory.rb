@@ -1,7 +1,9 @@
 require 'matrix'
 require_relative './abstract_matrix_factory'
 
-class MatrixFactory include AbstractMatrixFactory
+class MatrixFactory 
+    include AbstractMatrixFactory
+
     def initialize()
     end
     def makeMatrixWithRowsCols(rows, cols)
