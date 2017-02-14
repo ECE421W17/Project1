@@ -66,6 +66,20 @@ class DoKMatrix
         self.assert_class_invariants()
     end
 
+    def ==(other)
+        self.assert_class_invariants()
+        self.pre_equals(other)
+
+        ret = other != nil && 
+            other.respond_to?(:_get_delegate_matrix) && 
+            _get_delegate_matrix == other._get_delegate_matrix
+         
+        self.post_equals(other)
+        self.assert_class_invariants()
+
+        ret
+    end
+
     def +(other)
         self.assert_class_invariants()
         self.pre_plus(other)

@@ -73,6 +73,16 @@ module SparseMatrix
         assert(el == new_value, "Element at (#{i}, #{j}) is #{el} instead of new value #{new_value}")
     end
 
+    def pre_equals(other)
+    end
+
+    def ==(other)
+        raise NotImplementedError
+    end
+
+    def post_equals(other)
+    end
+
     def pre_plus(other)
         assert(other != nil, "Other is nil")
     end
