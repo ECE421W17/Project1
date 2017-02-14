@@ -255,7 +255,7 @@ module SparseMatrix
     end
 
     def _pre_multiplyByDoKMatrix(other)
-        assert(other.respond_to? :_get_delegate_matrix, "The given object cannot convert to a matrix")
+        assert(other.respond_to? :to_matrix, "The given object cannot convert to a matrix")
         assert(other.respond_to? :column_count, "The given object does not provide a column count")
         assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
     end

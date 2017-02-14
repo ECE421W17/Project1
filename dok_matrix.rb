@@ -20,7 +20,7 @@ class DoKMatrix
         self.assert_class_invariants()
     end
 
-    def _get_delegate_matrix
+    def to_matrix
         Matrix.build(@rowSize, @colSize) { |row, col| get(row, col) }
     end
 
@@ -82,8 +82,8 @@ class DoKMatrix
         self.pre_equals(other)
 
         ret = other != nil && 
-            other.respond_to?(:_get_delegate_matrix) && 
-            _get_delegate_matrix == other._get_delegate_matrix
+            other.respond_to?(:to_matrix) && 
+            to_matrix == other.to_matrix
          
         self.post_equals(other)
         self.assert_class_invariants()
@@ -129,7 +129,7 @@ class DoKMatrix
 
         if other.respond_to? :to_f
           new_matrix = self._multiplyByScalar(other)
-        elsif other.respond_to? :_get_delegate_matrix
+        elsif other.respond_to? :to_matrix
           new_matrix = self._multiplyByDoKMatrix(other)
         else
           new_matrix = self._multiplyByMatrix(other)
@@ -162,7 +162,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_transpose()
 
-        delegate_matrix = _get_delegate_matrix.transpose
+        delegate_matrix = to_matrix.transpose
         ret = DoKMatrix.new(@colSize, @rowSize);
 
         delegate_matrix.each_with_index {
@@ -179,7 +179,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_inverse()
 
-        inverse_matrix = _get_delegate_matrix.inverse
+        inverse_matrix = to_matrix.inverse
         ret = DoKMatrix.new(@rowSize, @colSize);
 
         inverse_matrix.each_with_index {
@@ -196,7 +196,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_rank()
 
-        ret = _get_delegate_matrix.rank
+        ret = to_matrix.rank
 
         self.post_rank()
         self.assert_class_invariants()
@@ -208,7 +208,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_determinant()
 
-        ret = _get_delegate_matrix.determinant
+        ret = to_matrix.determinant
 
         self.post_determinant()
         self.assert_class_invariants()
@@ -302,7 +302,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self._pre_multiplyByDoKMatrix(other)
 
-        updated_matrix = self._get_delegate_matrix * other._get_delegate_matrix
+        updated_matrix = self.to_matrix * other.to_matrix
         new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
 
         updated_matrix.each_with_index {
@@ -319,7 +319,7 @@ class DoKMatrix
         self.assert_class_invariants()
         self._pre_multiplyByMatrix(other)
 
-        updated_matrix = self._get_delegate_matrix * other
+        updated_matrix = self.to_matrix * other
         new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
 
         updated_matrix.each_with_index {
