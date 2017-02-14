@@ -110,10 +110,19 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_divide(other)
 
-        # implementation
+        if other.respond_to? :to_f
+          new_matrix = DoKMatrix.new(@rowSize, @colSize)
+          self.iterate { |row, col, val|
+            new_matrix.set((val / other).to_f, row, col)
+          }
+        else
+          new_matrix = self * other.inverse
+        end
 
         self.post_divide(other)
         self.assert_class_invariants()
+
+        new_matrix
     end
 
     def transpose()
@@ -290,14 +299,15 @@ class DoKMatrix
         self.assert_class_invariants()
         self._pre_multiplyByScalar(other)
 
+        new_dok_matrix = DoKMatrix.new(@rowSize, @colSize)
         self.iterate { |row, col, val|
-          self.set(val * other.to_f, row, col)
+          new_dok_matrix.set(val * other.to_f, row, col)
         }
 
         self._post_multiplyByScalar(other)
         self.assert_class_invariants()
 
-        self
+        new_dok_matrix
     end
 
     def _subtractScalar(other)

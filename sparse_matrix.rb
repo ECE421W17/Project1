@@ -127,7 +127,7 @@ module SparseMatrix
 
     def pre_inverse()
         det = self.determinant()
-        assert(det != 0, "Determinant should be zero to invert, but it is #{det}")
+        assert(det != 0, "Determinant should not be zero to invert, but it is #{det}")
     end
 
     def inverse()
