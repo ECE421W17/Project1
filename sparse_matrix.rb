@@ -37,6 +37,9 @@ module SparseMatrix
 
     end
 
+    def toMatrix(other)
+    end
+
     def pre_get(*indices)
         assert(indices[0].respond_to?(:to_i), "First index is not an integer")
         assert(indices[0] >= 0, "First index is not greater or equal to zero")
@@ -71,6 +74,16 @@ module SparseMatrix
         i, j = indices[0..1]
         el = self.get(i, j)
         assert(el == new_value, "Element at (#{i}, #{j}) is #{el} instead of new value #{new_value}")
+    end
+
+    def pre_equals(other)
+    end
+
+    def ==(other)
+        raise NotImplementedError
+    end
+
+    def post_equals(other)
     end
 
     def pre_plus(other)

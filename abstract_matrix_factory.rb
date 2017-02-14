@@ -21,18 +21,32 @@ module AbstractMatrixFactory
     def post_makeMatrixWithRowsCols(rows, cols)
     end
 
-    def pre_makeMatrixWithMatrix(content)
+    def pre_makeMatrixWithArray(content)
         assert(content.respond_to?(:[]), "Content does not overload [] operator")
         begin
-        	Matrix.rows(content)
+            Matrix.rows(content)
         rescue
-        	assert(false, "Cannot convert content to a matrix")
+            assert(false, "Cannot convert content to a matrix")
         end
+    end
+
+    def makeMatrixWithArray(content)
+        pre_makeMatrixWithMatrix(content)
+        # implementation
+        raise NotImplementedError
+        # no class invariants     
+        post_makeMatrixWithMatrix(content)
+    end
+
+    def post_makeMatrixWithArray(content)
+    end
+
+    def pre_makeMatrixWithMatrix(content)
+        assert(content.is_a?(Matrix), "The input is not a matrix")
     end
 
     def makeMatrixWithMatrix(content)
         pre_makeMatrixWithMatrix(content)
-
         # implementation
         raise NotImplementedError
         # no class invariants     

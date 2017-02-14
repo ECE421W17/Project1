@@ -13,10 +13,18 @@ class SparseMatrixFactory
         matrix
     end
 
+    def makeMatrixWithArray(content)
+        self.pre_makeMatrixWithArray(content)
+        matrix = DoKMatrix.rows(content)
+        self.post_makeMatrixWithArray(content)
+        matrix
+    end
+
     def makeMatrixWithMatrix(content)
         self.pre_makeMatrixWithMatrix(content)
-        matrix = DoKMatrix.rows(content)
+        matrix = DoKMatrix.toMatrix(content)
         self.post_makeMatrixWithMatrix(content)
         matrix
     end
+
 end

@@ -36,6 +36,17 @@ class DoKMatrix
         newMatrix
     end
 
+    def self.toMatrix(other)
+        newMatrix = DoKMatrix.new(other.row_size, other.column_size)
+        (0..other.row_size - 1).each do |r|
+            (0..other.column_size - 1).each do |c|
+                val = other.[](r,c)
+                newMatrix.set(val, r,c)
+            end
+        end
+        newMatrix
+    end
+
     def row_count
       @rowSize
     end
@@ -64,6 +75,20 @@ class DoKMatrix
 
         self.post_set(new_value, *indices)
         self.assert_class_invariants()
+    end
+
+    def ==(other)
+        self.assert_class_invariants()
+        self.pre_equals(other)
+
+        ret = other != nil && 
+            other.respond_to?(:_get_delegate_matrix) && 
+            _get_delegate_matrix == other._get_delegate_matrix
+         
+        self.post_equals(other)
+        self.assert_class_invariants()
+
+        ret
     end
 
     def +(other)
