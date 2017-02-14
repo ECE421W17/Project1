@@ -121,8 +121,8 @@ module SparseMatrix
     end
 
     def post_transpose(ret)
-        assert(@rowSize == ret.colSize, "Row size doesn't match return matrix column size")
-        assert(@colSize == ret.rowSize, "Column size doesn't match return matrix row size")
+        assert(@rowSize == ret.column_count, "Row size doesn't match return matrix column size")
+        assert(@colSize == ret.row_count, "Column size doesn't match return matrix row size")
     end
 
     def pre_inverse()
@@ -238,8 +238,10 @@ module SparseMatrix
     end
 
     def _pre_multiplyByMatrix(other)
-        assert(other.included_modules.include?(SparseMatrix), "Other is not a matrix")
-        assert(other.rowSize == @colSize, "Matrix's row size does not match other matrix's column size")
+        assert(other.respond_to? :row_count, "The given object does not provide a row count")
+        assert(other.respond_to? :column_count, "The given object does not provide a column count")
+        assert(other.respond_to? :[], "The given object does not support the '[]' operator")
+        assert(other.row_count == @colSize, "Matrix's row size does not match other matrix's column size")
     end
 
     def _multiplyByMatrix(other)

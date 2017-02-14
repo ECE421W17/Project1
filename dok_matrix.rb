@@ -114,12 +114,17 @@ class DoKMatrix
         self.assert_class_invariants()
         self.pre_transpose()
 
-        # implementation
-        ret = nil
+        delegate_matrix = _get_delegate_matrix.transpose
+        ret = DoKMatrix.new(@colSize, @rowSize);
+
+        delegate_matrix.each_with_index {
+          |val, row, col| ret.set(val, row, col)
+        }
 
         self.post_transpose(ret)
-
         self.assert_class_invariants()
+
+        ret
     end
 
     def inverse()
@@ -255,20 +260,31 @@ class DoKMatrix
         self.assert_class_invariants()
         self._pre_multiplyByMatrix(other)
 
-        # implementation
+        updated_matrix = self._get_delegate_matrix * other._get_delegate_matrix
+        new_dok_matrix = DoKMatrix.new(self.row_count, other.column_count)
+
+        updated_matrix.each_with_index {
+          |val, row, col| new_dok_matrix.set(val, row, col)
+        }
 
         self._post_multiplyByMatrix(other)
         self.assert_class_invariants()
+
+        new_dok_matrix
     end
 
     def _multiplyByScalar(other)
         self.assert_class_invariants()
         self._pre_multiplyByScalar(other)
 
-        # implementation
+        self.iterate { |row, col, val|
+          self.set(val * other.to_f, row, col)
+        }
 
         self._post_multiplyByScalar(other)
         self.assert_class_invariants()
+
+        self
     end
 
     def _subtractScalar(other)
