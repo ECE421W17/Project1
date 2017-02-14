@@ -58,8 +58,12 @@ other_res_mat.iterate { |row, col, val|
   puts 'Next val: ' + val.to_s
 }
 
+puts '***********************************'
+
+# *****
+
 myMatrix = DoKMatrix.new(3, 2)
-myMatrix.set(1, 1, 0)
+myMatrix.set(1, 0, 1)
 myMatrix.to_s
 
 transposed = DoKMatrix.new(2, 3)
@@ -79,11 +83,11 @@ myMatrix = myMatrix*transposed
 myMatrix.to_s
 
 myOther = DoKMatrix.new(3, 3)
-myOther.set(1, 0, 0)
+myOther.set(0, 0, 1)
 myOther.set(1, 1, 1)
-myOther.set(1, 1, 2)
-myOther.set(1, 1, 0)
-myOther.set(1, 2, 2)
+myOther.set(1, 2, 1)
+myOther.set(1, 0, 1)
+myOther.set(2, 2, 1)
 myOther.inverse.to_s
 myOtherInverse = myOther.inverse
 
@@ -102,5 +106,3 @@ aMatrix.send(:[]=, 0, 2, 0)
 aMatrix.send(:[]=, 2, 0, 0)
 mult = myMatrix / aMatrix
 mult.to_s
-
-# *****
