@@ -376,6 +376,30 @@ class DoKMatrix
         new_dok_matrix
     end
 
+    def row(index)
+      self.assert_class_invariants()
+      self._pre_row(index)
+
+      row = _get_delegate_matrix.row(index)
+
+      self._post_row(index)
+      self.assert_class_invariants()
+
+      row
+    end
+
+    def column(index)
+      self.assert_class_invariants()
+      self._pre_column(index)
+
+      column = _get_delegate_matrix.column(index)
+
+      self._post_column(index)
+      self.assert_class_invariants()
+
+      column
+    end
+
     alias :[] :get
     alias :[]= :set
     alias :inv :inverse
