@@ -379,5 +379,8 @@ class DoKMatrix
     end
 
     alias :[] :get
+    alias :inv :inverse
+    alias :det :determinant
+    alias :t :transpose
 
 end
