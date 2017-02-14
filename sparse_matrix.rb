@@ -338,4 +338,21 @@ module SparseMatrix
     def _post_subtractMatrix(other)
     end
 
+    def _pre_row(index)
+      assert(index.respond_to?(:to_i), "Index is not an integer")
+      assert(index >= 0, "Index is not greater or equal to zero")
+      assert(index < @rowSize, "Index is not less than first dimension")
+    end
+
+    def _post_row(index)
+    end
+
+    def _pre_column(index)
+      assert(index.respond_to?(:to_i), "Index is not an integer")
+      assert(index >= 0, "Index is not greater or equal to zero")
+      assert(index < @colSize, "Index is not less than second dimension")
+    end
+
+    def _post_column(index)
+    end
 end
